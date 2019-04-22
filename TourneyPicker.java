@@ -23,6 +23,7 @@ public class TourneyPicker
         ArrayList<String> stages = new ArrayList<>(0);
         ArrayList<String> used = new ArrayList<>(0);
         ArrayList<String> played = new ArrayList<>(0);
+        ArrayList<Integer> stageNums = new ArrayList<>(0);
         ArrayList<String> current;
         int length = 150;
         String[] pool = new String[size];
@@ -75,6 +76,7 @@ public class TourneyPicker
                     {
                         line2 = Integer.parseInt(line);
                         probPool[line2 - 1]++;
+                        System.out.println(stages.get(line2 - 1));
                     }
                 }
             }
@@ -99,6 +101,20 @@ public class TourneyPicker
         {
             //System.out.println(probPool[i] + "   " + stages.get(i));
         }
+        
+        int c = 0;
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < length; j++)
+            {
+                if (probPool[j] == i)
+                {
+                    //System.out.println(probPool[j] + "   " + stages.get(j));
+                    c += i;
+                }
+            }
+        }
+        //System.out.println(c);
         
 	while(cont) 
         {
@@ -126,6 +142,7 @@ public class TourneyPicker
                     System.out.println((i + 1) + ": " + st);
                     current.add(st);
                     used.add(st);
+                    stageNums.add(num + 1);
                     pool[i] = st;
 		}
                 else if (probPool[num] != 0)
@@ -172,6 +189,13 @@ public class TourneyPicker
                 }
                 else if (stPick == 0)
                 {
+                    int listSize = used.size();
+                    for (int i = listSize - 1; i > listSize - 1 - size; i--)
+                    {
+                        //System.out.println((listSize - 1) + "   " + (listSize - 1 - size));
+                        used.remove(i);
+                        stageNums.remove(i);
+                    }
                     isValid = true;
                     cont = false;
                 }
@@ -181,7 +205,11 @@ public class TourneyPicker
                 }
             }
 	}
-        
+        System.out.println("\nAdd this list to prob.txt: ");
+        for (int i = 0; i < stageNums.size(); i++)
+        {
+            System.out.println(stageNums.get(i));
+        }
         System.out.println("\nPlayed stages: ");
         for (int i = 0; i < played.size(); i++)
         {
